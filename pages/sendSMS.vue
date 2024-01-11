@@ -16,14 +16,14 @@
                         <div class="row">
                             <div class="col" v-for="(numbers, category) in processedContent" :key="category">
                                 <div class="card mt-3">
-                                    <div class="card-header">{{ category }}</div>
+                                    <div class="card-header pb-0">{{ category }}</div>
                                     <div class="card-body">
                                         <div v-for="(number, index) in numbers.slice(0, 3)" :key="index">
                                             {{ number }}
                                         </div>
-                                        <div v-if="numbers.length > 10">...</div>
+                                        <div v-if="numbers.length > 3">...</div>
+                                        總筆數：{{ numbers.length }} 筆
                                     </div>
-                                    總筆數：{{ numbers.length }}
                                 </div>
                             </div>
                         </div>
@@ -272,7 +272,17 @@ export default {
         },
         // 發送 API
         sendSMS() {
-            // $fetch('/api/sendSMS');
+            console.log(this.processedContent);
+            let numbers = [];
+            if (this.processedContent != null) {
+                numbers = this.processedContent["SMART"];
+            }
+            let result = $fetch('/api/sendSMS', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ numbers: numbers })
+            });
+            console.log(result);
         },
     },
 };
