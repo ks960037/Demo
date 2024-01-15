@@ -76,6 +76,7 @@ import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import { QuillEditor } from "@vueup/vue-quill";
 import Choices from "choices.js";
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
+import { ssrContextKey } from "vue";
 
 definePageMeta({
     layout: "default",
@@ -271,18 +272,19 @@ export default {
             }
         },
         // 發送 API
-        sendSMS() {
-            console.log(this.processedContent);
+        async sendSMS() {
             let numbers = [];
+            let smsContent = this.SMSContent;
             if (this.processedContent != null) {
+                // 根據分類決定發送方式
                 numbers = this.processedContent["SMART"];
+                let result = await $fetch(`/api/sendSMS`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: { numbers: numbers, smsContent: smsContent }
+                });
+                console.log(result);
             }
-            let result = $fetch('/api/sendSMS', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ numbers: numbers })
-            });
-            console.log(result);
         },
     },
 };

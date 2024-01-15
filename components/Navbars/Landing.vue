@@ -88,7 +88,7 @@ export default {
     },
     methods: {
         handleScroll() {
-            console.log("開始滾動", window.scrollY);
+            // console.log("開始滾動", window.scrollY);
             const currentScrollPosition = window.scrollY;
             if (currentScrollPosition > this.lastScrollPosition) {
                 this.isNavbarHidden = true;
@@ -96,7 +96,7 @@ export default {
                 this.isNavbarHidden = false;
             }
             this.lastScrollPosition = currentScrollPosition;
-            console.log("結束", this.isNavbarHidden);
+            // console.log("結束", this.isNavbarHidden);
         }
     },
     mounted() {
