@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export default async () => {
-    const connUri = "mongodb://43.203.4.205:27717/";
+    const connUri = "mongodb://43.203.4.205:27717/numbers";
     try {
         console.log("嘗試連線資料庫......");
         // await mongoose.connect(config.dburl, DB_OPTIONS)

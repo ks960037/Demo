@@ -42,7 +42,7 @@
                     <textarea class="form-control dropzone" v-model="SMSContent"></textarea>
 
                     <div class="mt-4 d-flex justify-content-end">
-                        <button type="button" name="button" class="m-0 btn btn-light">
+                        <button type="button" name="button" class="m-0 btn btn-light" @click="confirmSend">
                             排程發送
                         </button>
                         <button type="button" name="button" class="m-0 btn bg-gradient-success ms-2" @click="sendSMS">
@@ -286,6 +286,11 @@ export default {
                 console.log(result);
             }
         },
+        // 確認彈窗
+        confirmSend() {
+            let ans = confirm("確定要送出嗎？");
+            console.log(ans);
+        }
     },
 };
 </script>

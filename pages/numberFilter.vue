@@ -193,7 +193,7 @@ export default {
          * 對數字進行處理
          * @return {void}
          */
-        processNumbers() {
+        async processNumbers() {
             this.processedContent = {};
             // 將檔案內容分割成行
             let lines;
@@ -219,6 +219,13 @@ export default {
                     this.processedContent["NONE"].push('Invalid number')
                 }
             });
+            // 將篩號結果儲存進資料庫中
+            let save = await useFetch(`/api/insertNumber`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: this.processedContent
+            });
+            console.log(save);
         },
         // 報表導出功能
         downloadCSV() {
