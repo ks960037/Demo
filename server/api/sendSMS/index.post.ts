@@ -1,10 +1,10 @@
 export default defineEventHandler(async (event) => {
-    // console.log('發送SMS');
+    console.log('發送SMS');
     const body = await readBody(event);
     // console.log(body);
     const numbers = body.numbers;
     // console.log(numbers);
-    const smsContent = "【签名】" + body.smsContent;
+    const smsContent = "【foo】" + body.smsContent;
     // console.log(smsContent);
 
     let numberList: string = "";
@@ -12,10 +12,10 @@ export default defineEventHandler(async (event) => {
         numberList += "00" + number + ",";
     }
     numberList = numberList.slice(0, numberList.length - 1);
-    // console.log(numberList);
+    console.log(numberList);
 
     let response: Response;
-    let result;
+    let result = null;
     try {
         let msgBody = {
             clientid: "b0f0e2",
@@ -39,10 +39,10 @@ export default defineEventHandler(async (event) => {
             });
         result = await response.json();
         console.log(result);
+        return result;
     } catch (error) {
         // 處理錯誤...
         console.log(error);
+        return error;
     }
-
-    return result;
 })

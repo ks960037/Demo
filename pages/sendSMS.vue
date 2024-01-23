@@ -1,15 +1,51 @@
 <template>
     <div class="container-fluid">
         <div class="row">
-            <div class="mx-auto col-12">
+            <div class="col-12 mx-auto">
                 <div class="mt-4 card card-body">
                     <h2 class="mb-0">發送簡訊</h2>
-                    <p class="mb-0 text-sm">上傳發送清單 → 查看辨識結果 → 填入欲發送訊息內容 → 確認發送</p>
-                    <hr class="my-3 horizontal dark" />
-                    <label class="form-label">上傳發送清單</label>
-                    <div class="dropzone">
-                        <input name="file" type="file" @change="onFileChange" class="fallback form-control">
+                    <!-- 模式選擇 -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="mode" id="uploadMode" value="upload"
+                                    v-model="mode">
+                                <label class="form-check-label" for="uploadMode">
+                                    檔案上傳模式
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="mode" id="inputMode" value="input"
+                                    v-model="mode">
+                                <label class="form-check-label" for="inputMode">
+                                    文字輸入模式
+                                </label>
+                            </div>
+                        </div>
                     </div>
+                    <!-- 檔案上傳模式 -->
+                    <div class="row" v-if="mode === 'upload'">
+                        <div class="col">
+                            <p class="mb-0 text-sm">上傳發送清單 → 查看辨識結果 → 填入欲發送訊息內容 → 確認發送</p>
+                            <hr class="my-3 horizontal dark" />
+                            <label class="form-label">上傳發送清單</label>
+                            <div class="dropzone">
+                                <input name="file" type="file" @change="onFileChange" class="fallback form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 文字輸入模式 -->
+                    <div class="row" v-if="mode === 'input'">
+                        <div class="col">
+                            <p class="mb-0 text-sm">輸入號碼 → 確認號碼分類結果 → 填入訊息內容 → 確認發送</p>
+                            <hr class="my-3 horizontal dark" />
+                            <textarea class="form-control" v-model="fileContent"></textarea>
+                            <input type="button" @click="processNumbers" class="btn btn-sm btn-primary mt-1" value="分析" />
+                        </div>
+                    </div>
+                    <!-- 電話號碼分析結果 -->
                     <div v-if="processedContent">
                         <hr class="my-3 horizontal dark" />
                         <label for="projectName" class="form-label">號碼分析結果</label>
@@ -42,10 +78,10 @@
                     <textarea class="form-control dropzone" v-model="SMSContent"></textarea>
 
                     <div class="mt-4 d-flex justify-content-end">
-                        <button type="button" name="button" class="m-0 btn btn-light" @click="confirmSend">
+                        <!-- <button type="button" name="button" class="m-0 btn btn-light" @click="confirmSend">
                             排程發送
-                        </button>
-                        <button type="button" name="button" class="m-0 btn bg-gradient-success ms-2" @click="sendSMS">
+                        </button> -->
+                        <button type="button" name="button" class="m-0 btn bg-gradient-success ms-2" @click="confirmSend">
                             立即發送
                         </button>
                     </div>
@@ -69,6 +105,12 @@
     </div>
 </template>
 
+<script setup>
+definePageMeta({
+    layout: "default",
+});
+</script>
+
 <script>
 import flatPickr from "vue-flatpickr-component";
 import { Dropzone } from "dropzone";
@@ -77,12 +119,12 @@ import { QuillEditor } from "@vueup/vue-quill";
 import Choices from "choices.js";
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import { ssrContextKey } from "vue";
+import { getTextOfJSDocComment } from "typescript";
 
-definePageMeta({
-    layout: "default",
-});
+import ArgonRadio from "@/components/ArgonRadio.vue";
+
 export default {
-    components: { QuillEditor, flatPickr },
+    components: { QuillEditor, flatPickr, ArgonRadio },
     data() {
         return {
             mode: 'upload',  // 預設模式為檔案上傳模式
@@ -276,20 +318,69 @@ export default {
             let numbers = [];
             let smsContent = this.SMSContent;
             if (this.processedContent != null) {
-                // 根據分類決定發送方式
-                numbers = this.processedContent["SMART"];
+                // 將所有分類的號碼重新塞回陣列
+                let keys = Object.keys(this.processedContent);
+                for (let key of keys) {
+                    console.log(key);
+                    if (key == "NONE") continue;
+                    let classifiedPhones = this.processedContent[key];
+                    for (let phone of classifiedPhones) {
+                        numbers.push(phone)
+                    }
+                }
+                // 發送到後端
                 let result = await $fetch(`/api/sendSMS`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: { numbers: numbers, smsContent: smsContent }
                 });
-                console.log(result);
+                // console.log(result);
+                this.$swal({
+                    icon: "success",
+                    title: "發送成功!",
+                    text: result,
+                });
+            } else {
+                this.$swal({
+                    icon: "error",
+                    title: "發送失敗!",
+                    text: "缺少內容",
+                });
             }
         },
         // 確認彈窗
         confirmSend() {
-            let ans = confirm("確定要送出嗎？");
-            console.log(ans);
+            this.$swal({
+                title: "確認發送?",
+                text: "即將扣費",
+                showCancelButton: true,
+                confirmButtonText: "確認發送",
+                cancelButtonText: "取消",
+                reverseButtons: true,
+                customClass: {
+                    confirmButton: "btn bg-gradient-success",
+                    cancelButton: "btn bg-gradient-danger",
+                },
+                buttonsStyling: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 確認送出
+                    this.sendSMS();
+                } else if (
+                    result.dismiss === this.$swal.DismissReason.cancel
+                ) {
+                    // 取消
+                    this.$swal({
+                        title: "取消送出!",
+                        text: "本次發送取消",
+                        icon: "error",
+                        customClass: {
+                            confirmButton: "btn bg-gradient-success",
+                        },
+                        buttonsStyling: false,
+                    });
+                }
+            });
         }
     },
 };
