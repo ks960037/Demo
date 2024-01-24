@@ -3,14 +3,9 @@
     <div class="p-3 pb-0 card-header">
       <div class="d-flex justify-content-between">
         <h6 class="mb-0">Channels</h6>
-        <button
-          type="button"
+        <button type="button"
           class="mb-0 btn btn-icon-only btn-rounded btn-outline-secondary ms-2 btn-sm d-flex align-items-center justify-content-center"
-          data-bs-toggle="tooltip"
-          data-bs-placement="bottom"
-          title
-          data-bs-original-title="See traffic channels"
-        >
+          data-bs-toggle="tooltip" data-bs-placement="bottom" title data-bs-original-title="See traffic channels">
           <i class="fas fa-info" aria-hidden="true"></i>
         </button>
       </div>
@@ -19,33 +14,29 @@
       <div class="row">
         <div class="col-7 text-start">
           <div class="chart d-flex justify-content-center">
-            <PieChart
-              :chart-options="{
-                colors: ['#17c1e8', '#4BB543', '#3A416F', '#a8b8d8'],
-                labels: ['Facebook', 'Direct', 'Organic', 'Referral'],
-                legend: {
-                  show: false,
-                },
-                dataLabels: {
-                  enabled: false,
-                },
-                responsive: [
-                  {
-                    breakpoint: 480,
-                    options: {
-                      chart: {
-                        width: 200,
-                      },
-                      legend: {
-                        position: 'bottom',
-                      },
+            <chartsPieChart :chart-options="{
+              colors: ['#17c1e8', '#4BB543', '#3A416F', '#a8b8d8'],
+              labels: ['Facebook', 'Direct', 'Organic', 'Referral'],
+              legend: {
+                show: false,
+              },
+              dataLabels: {
+                enabled: false,
+              },
+              responsive: [
+                {
+                  breakpoint: 480,
+                  options: {
+                    chart: {
+                      width: 200,
+                    },
+                    legend: {
+                      position: 'bottom',
                     },
                   },
-                ],
-              }"
-              :series="[15, 20, 12, 60]"
-              width="250"
-            />
+                },
+              ],
+            }" :series="[15, 20, 12, 60]" width="250" />
           </div>
         </div>
         <div class="my-auto mx-auto col-5">
@@ -84,5 +75,4 @@
 </template>
 
 <script setup>
-import PieChart from "~~/examples/charts/PieChart.vue";
 </script>
