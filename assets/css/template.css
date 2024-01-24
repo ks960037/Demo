@@ -3433,11 +3433,6 @@ textarea.form-control.is-valid {
   box-shadow: 0 0 0 2px rgba(102, 212, 50, 0.25);
 }
 
-.was-validated .form-control-color:valid,
-.form-control-color.is-valid {
-  width: calc(3rem + unset);
-}
-
 .was-validated .form-check-input:valid,
 .form-check-input.is-valid {
   border-color: #66d432;
@@ -3541,11 +3536,6 @@ textarea.form-control.is-invalid {
 .form-select.is-invalid:focus {
   border-color: #fd5c70;
   box-shadow: 0 0 0 2px rgba(253, 92, 112, 0.25);
-}
-
-.was-validated .form-control-color:invalid,
-.form-control-color.is-invalid {
-  width: calc(3rem + unset);
 }
 
 .was-validated .form-check-input:invalid,
