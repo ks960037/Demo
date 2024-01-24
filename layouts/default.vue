@@ -12,10 +12,6 @@
 </template>
 
 <script setup>
-import Navbar from "~~/examples/Navbar";
-import Footer from "~~/examples/Footer";
-import Configurator from "~~/examples/Configurator";
-
 import { useNavStore } from "~~/stores/NavStore";
 import setTooltip from "~~/assets/js/tooltip";
 

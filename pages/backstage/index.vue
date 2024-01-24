@@ -14,15 +14,16 @@
                             icon: { component, background, shape },
                             link,
                         } of cardData" :key="title" class="col-lg-3 col-md-6 col-12">
-                            <MiniStatisticsCard :title="title" :value="value" :description="description" :link="link" :icon="{
-                                component: component,
-                                background: background,
-                                shape: shape,
-                            }" />
+                            <cardsMiniStatisticsCard :title="title" :value="value" :description="description" :link="link"
+                                :icon="{
+                                    component: component,
+                                    background: background,
+                                    shape: shape,
+                                }" />
                         </div>
                     </div>
                     <div class="row">
-                        <GradientLineChart :chart-options="{
+                        <cardsGradientLineChart :chart-options="{
                             chart: {
                                 type: 'area',
                             },
@@ -61,7 +62,6 @@
 </template>
 
 <script setup>
-import GradientLineChart from "~~/examples/charts/GradientLineChart.vue";
 const cardData = [
     {
         title: "",

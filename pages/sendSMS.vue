@@ -31,7 +31,7 @@
                             <p class="mb-0 text-sm">上傳發送清單 → 查看辨識結果 → 填入欲發送訊息內容 → 確認發送</p>
                             <hr class="my-3 horizontal dark" />
                             <label class="form-label">上傳發送清單</label>
-                            <div class="dropzone">
+                            <div class="">
                                 <input name="file" type="file" @change="onFileChange" class="fallback form-control">
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                     <p class="text-xs form-text text-muted ms-1">
                         欲發送的簡訊內容
                     </p>
-                    <textarea class="form-control dropzone" v-model="SMSContent"></textarea>
+                    <textarea class="form-control" v-model="SMSContent"></textarea>
 
                     <div class="mt-4 d-flex justify-content-end">
                         <!-- <button type="button" name="button" class="m-0 btn btn-light" @click="confirmSend">
@@ -113,18 +113,12 @@ definePageMeta({
 
 <script>
 import flatPickr from "vue-flatpickr-component";
-import { Dropzone } from "dropzone";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import { QuillEditor } from "@vueup/vue-quill";
-import Choices from "choices.js";
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
-import { ssrContextKey } from "vue";
-import { getTextOfJSDocComment } from "typescript";
-
-import ArgonRadio from "@/components/ArgonRadio.vue";
 
 export default {
-    components: { QuillEditor, flatPickr, ArgonRadio },
+    components: { QuillEditor, flatPickr },
     data() {
         return {
             mode: 'upload',  // 預設模式為檔案上傳模式
@@ -138,45 +132,8 @@ export default {
         };
     },
     mounted() {
-        const element = document.getElementById("choices-multiple-remove-button");
-        if (element) {
-            const example = new Choices(element, {
-                removeItemButton: true,
-            });
-
-            example.setChoices(
-                [
-                    {
-                        value: "One",
-                        label: "Label One",
-                        disabled: true,
-                    },
-                    {
-                        value: "Two",
-                        label: "Label Two",
-                        selected: true,
-                    },
-                    {
-                        value: "Three",
-                        label: "Label Three",
-                    },
-                ],
-                "value",
-                "label",
-                false
-            );
-        }
-
-        Dropzone.autoDiscover = false;
-        if (document.getElementById("dropzone")) {
-            const drop = document.getElementById("dropzone");
-            // eslint-disable-next-line no-new
-            new Dropzone(drop, {
-                url: "/file/post",
-                addRemoveLinks: true,
-            });
-        }
-        // const { response } = useFetch('/api/post')
+        // 取消 choices
+        // 取消 drop zone
     },
     methods: {
         // 上傳檔案時調用

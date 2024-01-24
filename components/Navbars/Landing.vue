@@ -16,9 +16,9 @@
                             <option value="en">en</option>
                             <option value="zh">中文</option>
                         </select>
-                        <nuxt-link to="authentication/signin/basic"
-                            class="btn btn-sm bg-gradient-primary btn-round mb-0 d-lg-none d-block">{{ $t('login')
-                            }}</nuxt-link>
+                        <nuxt-link to="sendSMS" class="btn btn-sm bg-gradient-primary btn-round mb-0 d-lg-none d-block">{{
+                            $t('login')
+                        }}</nuxt-link>
                         <div id="navigation" class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0">
                             <!-- 下拉菜單範例 -->
                             <ul class="navbar-nav navbar-nav-hover mx-auto">
@@ -49,9 +49,9 @@
                                     <option value="zh">中文</option>
                                 </select>
                                 <li class="nav-item ms-1">
-                                    <nuxt-link to="authentication/signin/basic"
-                                        class="btn btn-sm bg-gradient-primary btn-round mb-0">{{ $t('login')
-                                        }}</nuxt-link>
+                                    <nuxt-link to="sendSMS" class="btn btn-sm bg-gradient-primary btn-round mb-0">{{
+                                        $t('login')
+                                    }}</nuxt-link>
                                 </li>
                             </ul>
                         </div>

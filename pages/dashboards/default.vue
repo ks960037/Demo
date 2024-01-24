@@ -9,7 +9,7 @@
             description,
             icon: { component, background, shape },
           } of cardData" :key="title" class="col-lg-3 col-md-6 col-12">
-            <MiniStatisticsCard :title="title" :value="value" :description="description" :icon="{
+            <cardsMiniStatisticsCard :title="title" :value="value" :description="description" :icon="{
               component: component,
               background: background,
               shape: shape,
@@ -28,7 +28,7 @@
               </div>
               <div class="p-0 card-body">
                 <div class="chart">
-                  <GradientLineChart :chart-options="{
+                  <chartsGradientLineChart :chart-options="{
                     chart: {
                       type: 'area',
                     },
@@ -172,7 +172,7 @@
         </div>
         <div class="row mt-4">
           <div class="col-12 col-lg-5">
-            <PostCard />
+            <cardsPostCard />
           </div>
           <div class="col-12 col-lg-7">
             <ProjectCard :headers="['Project', 'Budget', 'Status', 'Completion', '']" :items="[
@@ -282,7 +282,7 @@
             <AuthorsTable />
           </div>
           <div class="col-md-4">
-            <CategoriesList :categories="[
+            <cardsCategoriesList :categories="[
               {
                 icon: {
                   component: 'ni ni-mobile-button',
@@ -342,13 +342,9 @@ import DE from "~/assets/img/icons/flags/DE.png";
 import GB from "~/assets/img/icons/flags/GB.png";
 import BR from "~/assets/img/icons/flags/BR.png";
 
-import CategoriesList from "@/examples/cards/CategoriesList.vue";
-import MiniStatisticsCard from "~~/examples/cards/MiniStatisticsCard.vue";
-import GradientLineChart from "~~/examples/charts/GradientLineChart.vue";
 import Carousel from "~~/pagesComponents/dashboards/default/Carousel.vue";
 import MemberCard from "~~/pagesComponents/dashboards/default/MemberCard.vue";
 import AuthorsTable from "~~/pagesComponents/dashboards/default/AuthorsTable.vue";
-import PostCard from "~~/examples/cards/PostCard.vue";
 import TodoList from "~~/pagesComponents/dashboards/default/TodoList.vue";
 import ProgressTrackCard from "~~/pagesComponents/dashboards/default/ProgressTrackCard.vue";
 import ProjectCard from "~~/pagesComponents/dashboards/default/ProjectCard.vue";
